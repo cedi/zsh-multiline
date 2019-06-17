@@ -57,9 +57,18 @@ prompt_end() {
   else
     echo -n "%{%k%}"
   fi
-  echo -n "%{%F{green}%}
- $%{%f%}"
-  CURRENT_BG=''
+
+	echo
+
+  CURRENT_BG='NONE'
+  prompt_segment black default "\u03BB"
+
+  if [[ -n $CURRENT_BG ]]; then
+    echo -n " %{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
+  else
+    echo -n "%{%k%}"
+  fi
+
 }
 
 ### Prompt components
@@ -173,7 +182,7 @@ prompt_status() {
 
 ## Main prompt
 build_prompt() {
-  RETVAL=$?
+	RETVAL=$?
 	echo
   prompt_status
   prompt_virtualenv
@@ -185,3 +194,4 @@ build_prompt() {
 }
 
 PROMPT='%{%f%b%k%}$(build_prompt) '
+RPROMPT='%{$fg[red]%} ${exit_status} %{$reset_color%}'
